@@ -1,7 +1,10 @@
 import requests
+import re
 
-for i in range(26):
-    r = requests.get('http://mercury.picoctf.net:29649/check', headers={ "Cookie": f'{i + 1}' })
-    if 'pico' in (a := r.content.decode('utf-8')):
-        print(a)
-        break
+r = requests.get('http://mercury.picoctf.net:29649/check', cookies={"name": "18"})
+
+text = r.text
+
+m = re.search('picoCTF{.*}', text)
+if m:
+    print(m.group(0))
